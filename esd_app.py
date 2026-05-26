@@ -363,6 +363,11 @@ with tab_hs:
 
             plot_hs = hs[hs["cmdCode"].astype(str).isin(selected_hs)].copy()
 
+            hover_cols = {}
+
+            if "primaryValue" in plot_hs.columns:
+                hover_cols["primaryValue"] = ":,.0f"
+            
             fig = px.line(
                 plot_hs.sort_values("refYear"),
                 x="refYear",
@@ -370,11 +375,7 @@ with tab_hs:
                 color="cmdCode",
                 markers=True,
                 title="HS share over time",
-                hover_data={
-                    "primaryValue": ":,.0f"
-                    if "primaryValue" in plot_hs.columns
-                    else False
-                },
+                hover_data=hover_cols,
             )
 
             fig.update_layout(
@@ -440,6 +441,11 @@ with tab_detail:
 
             plot_hc = tmp[tmp["partnerDesc"].isin(selected_partners)].copy()
 
+            hover_cols = {}
+
+            if "primaryValue" in plot_hc.columns:
+                hover_cols["primaryValue"] = ":,.0f"
+            
             fig = px.line(
                 plot_hc.sort_values("refYear"),
                 x="refYear",
@@ -447,11 +453,7 @@ with tab_detail:
                 color="partnerDesc",
                 markers=True,
                 title=f"Country share structure for HS {selected_code}",
-                hover_data={
-                    "primaryValue": ":,.0f"
-                    if "primaryValue" in plot_hc.columns
-                    else False
-                },
+                hover_data=hover_cols,
             )
 
             fig.update_layout(
